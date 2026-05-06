@@ -9,12 +9,13 @@ export default function Home() {
   const [channels, setChannels] = useState<any[]>([]);
   const [currentUrl, setCurrentUrl] = useState("");
   const [currentChannel, setCurrentChannel] =
-    useState("Select Channel");
+    useState("Loading...");
 
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Loading...");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Load M3U
+  // Load Playlist
   useEffect(() => {
     fetch("https://raw.githubusercontent.com/mamunptsc1/iptv/main/bd")
       .then((res) => res.text())
@@ -40,8 +41,33 @@ export default function Home() {
         }
 
         setChannels(list);
+
+        if (list.length > 0) {
+          playChannel(0, list);
+        }
       });
   }, []);
+
+  // Play Channel
+  const playChannel = (
+    index: number,
+    customList?: any[]
+  ) => {
+    const activeList = customList || channels;
+
+    if (index >= activeList.length) {
+      setStatus("❌ No Working Streams");
+      return;
+    }
+
+    const ch = activeList[index];
+
+    setCurrentIndex(index);
+    setCurrentUrl(ch.url);
+    setCurrentChannel(ch.name);
+
+    setStatus("⏳ Loading...");
+  };
 
   // HLS Player
   useEffect(() => {
@@ -51,10 +77,10 @@ export default function Home() {
 
     if (!video) return;
 
-    setStatus("Loading...");
+    let hls: Hls;
 
     if (Hls.isSupported()) {
-      const hls = new Hls({
+      hls = new Hls({
         enableWorker: true,
         lowLatencyMode: true,
       });
@@ -62,30 +88,50 @@ export default function Home() {
       hls.loadSource(currentUrl);
       hls.attachMedia(video);
 
+      // Loaded
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play();
         setStatus("🟢 LIVE");
       });
 
-      hls.on(Hls.Events.ERROR, () => {
-        setStatus("❌ Stream Error");
+      // Error Handling
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        if (data.fatal) {
+          setStatus("❌ Dead Stream - Switching...");
+
+          setTimeout(() => {
+            playChannel(currentIndex + 1);
+          }, 1500);
+
+          hls.destroy();
+        }
       });
 
       return () => {
         hls.destroy();
       };
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    } else if (
+      video.canPlayType(
+        "application/vnd.apple.mpegurl"
+      )
+    ) {
       video.src = currentUrl;
 
-      video.addEventListener("loadedmetadata", () => {
-        video.play();
-        setStatus("🟢 LIVE");
-      });
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          video.play();
+          setStatus("🟢 LIVE");
+        }
+      );
     }
   }, [currentUrl]);
 
+  // Search
   const filteredChannels = channels.filter((ch) =>
-    ch.name.toLowerCase().includes(search.toLowerCase())
+    ch.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   return (
@@ -94,7 +140,7 @@ export default function Home() {
       <div className="sticky top-0 z-50 bg-black/40 backdrop-blur-xl border-b border-white/10 p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-black text-red-500">
-            IPTV STABLE
+            IPTV AI PLAYER
           </h1>
 
           <div className="bg-red-600 px-4 py-2 rounded-full animate-pulse">
@@ -108,7 +154,9 @@ export default function Home() {
             type="text"
             placeholder="Search channels..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
             className="w-full p-4 rounded-2xl bg-white/10 border border-white/10 outline-none"
           />
         </div>
@@ -117,7 +165,7 @@ export default function Home() {
       {/* Main */}
       <div className="max-w-7xl mx-auto p-4">
         {/* Player */}
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-4 mb-8">
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-4 mb-8 shadow-2xl">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-gray-400 text-sm">
@@ -134,6 +182,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Player */}
           <video
             ref={videoRef}
             controls
@@ -148,10 +197,7 @@ export default function Home() {
           {filteredChannels.map((ch, i) => (
             <div
               key={i}
-              onClick={() => {
-                setCurrentUrl(ch.url);
-                setCurrentChannel(ch.name);
-              }}
+              onClick={() => playChannel(i)}
               className={`cursor-pointer rounded-3xl p-4 border transition-all duration-300 hover:scale-105 ${
                 currentChannel === ch.name
                   ? "bg-red-600/30 border-red-500"
@@ -176,6 +222,10 @@ export default function Home() {
                 <p className="text-sm font-semibold">
                   {ch.name}
                 </p>
+
+                <div className="mt-2 inline-block bg-red-600/20 text-red-400 px-2 py-1 rounded-full text-xs">
+                  LIVE TV
+                </div>
               </div>
             </div>
           ))}
