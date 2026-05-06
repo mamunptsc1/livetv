@@ -17,7 +17,7 @@ export default function Home() {
 
   // Load Playlist
   useEffect(() => {
-    fetch("https://raw.githubusercontent.com/mamunptsc1/iptv/main/bd")
+    fetch("https://raw.githubusercontent.com/mamunptsc1/iptv/main/bd.m3u")
       .then((res) => res.text())
       .then((data) => {
         const lines = data.split("\n");
