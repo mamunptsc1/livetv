@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+<meta name="theme-color" content="#001133">
+<meta name="description" content="Premium Live TV Streaming">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LIVE TV</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:
+radial-gradient(circle at top left,#153cff55,transparent 25%),
+radial-gradient(circle at top right,#ff006655,transparent 25%),
+linear-gradient(180deg,#020617,#07152e,#081f45);
+background-attachment:fixed;
+color:#fff;
+overflow:hidden;
+}
+
+/* TOPBAR */
+
+.topbar{
+height:58px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 10px;
+gap:8px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.notice{
+background:#000;
+padding:14px;
+font-size:12px;
+font-weight:bold;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.notice-text{
+flex:1;
+overflow:hidden;
+white-space:nowrap;
+font-size:11px;
+}
+
+.notice-text span{
+display:inline-block;
+padding-left:100%;
+animation:marquee 14s linear infinite;
+}
+
+@keyframes marquee{
+0%{
+transform:translateX(0);
+}
+100%{
+transform:translateX(-100%);
+}
+}
+
+.clock{
+background:
+linear-gradient(90deg,#ff0066,#ff0055);
+padding:10px 14px;
+border-radius:30px;
+font-size:10px;
+font-weight:bold;
+box-shadow:
+0 0 20px rgba(255,0,102,0.45);
+}
+
+/* PLAYER */
+
+.player-wrapper{
+padding:14px;
+margin-bottom:12px;
+}
+
+.player{
+width:100%;
+aspect-ratio:16/9;
+height:auto;
+border-radius:28px;
+overflow:hidden;
+position:relative;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 0 40px rgba(0,140,255,0.18);
+padding-bottom:4px;
+}
+
+video{
+width:100%;
+height:100%;
+object-fit:cover;
+background:#000;
+border-radius:28px;
+outline:none;
+border:none;
+}
+
+video:fullscreen{
+object-fit:contain;
+}
+
+video:-webkit-full-screen{
+object-fit:contain;
+}
+/* CONTENT */
+
+.content{
+height:calc(100vh - 320px);
+overflow-y:auto;
+padding:16px;
+padding-bottom:90px;
+}
+
+/* TITLE */
+
+
+/* CATEGORY */
+
+.category-bar{
+display:flex;
+gap:10px;
+margin-bottom:6px;
+overflow-x:auto;
+}
+
+.category-btn{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+padding:12px 20px;
+border-radius:15px;
+font-size:14px;
+font-weight:600;
+border:1px solid rgba(255,255,255,0.08);
+transition:0.35s;
+cursor:pointer;
+color:#fff;
+}
+
+.category-btn.active{
+background:
+linear-gradient(90deg,#ff0066,#ff0055);
+
+box-shadow:
+0 0 25px rgba(255,0,120,0.45);
+}
+
+/* SEARCH */
+
+.search{
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+border-radius:18px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+color:#fff;
+font-size:15px;
+margin-bottom:18px;
+border:1px solid rgba(255,255,255,0.08);
+}
+.section-title{
+font-size:14px;
+letter-spacing:5px;
+color:#dddfff;
+font-weight:300;
+position:sticky;
+top:0;
+z-index:1000;
+background:#001133;
+padding:6px 0;
+margin-bottom:4px;
+}
+
+.category-bar{
+display:flex;
+gap:10px;
+overflow-x:auto;
+position:sticky;
+top:36px;
+z-index:999;
+background:#001133;
+padding:6px 0;
+margin-bottom:4px;
+}
+
+.search{
+width:100%;
+position:sticky;
+top:88px;
+z-index:998;
+margin-bottom:8px;
+}
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+overflow:hidden;
+}
+
+/* CARD */
+
+.card{
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,0.10),
+rgba(255,255,255,0.03)
+);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+
+border-radius:22px;
+
+padding:14px 8px;
+
+text-align:center;
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+transition:0.35s;
+
+min-height:150px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+
+position:relative;
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.22);
+
+cursor:pointer;
+}
+
+.card:hover{
+transform:
+translateY(-6px)
+scale(1.02);
+
+box-shadow:
+0 0 25px rgba(255,0,120,0.35);
+}
+
+.card.active{
+border:2px solid #ff0066;
+
+box-shadow:
+0 0 20px rgba(255,0,120,0.30);
+}
+
+.card img{
+
+width:82px;
+height:82px;
+
+object-fit:contain;
+
+padding:4px;
+
+border-radius:18px;
+
+background:none;
+
+box-shadow:none;
+
+display:block;
+margin:auto;
+
+}
+  
+/* FOOTER */
+
+.footer{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:45px;
+background:#04122a;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:12px;
+font-weight:bold;
+color:#ff0066;
+border-top:1px solid rgba(255,255,255,0.08);
+z-index:999;
+}
+
+/* LOADER */
+
+#loader{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(0,0,0,0.75);
+padding:14px 24px;
+border-radius:16px;
+display:none;
+z-index:999;
+font-size:15px;
+color:#fff;
+backdrop-filter:blur(12px);
+}
+
+/* SCROLL */
+
+::-webkit-scrollbar{
+width:4px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#ff0066;
+border-radius:20px;
+}
+
+/* PC + TV */
+
+
+
+/* MOBILE */
+
+
+@media(max-width:768px){
+
+.topbar{
+height:55px;
+padding:0 8px;
+}
+
+.notice{
+padding:14px;
+font-size:12px;
+border-radius:10px;
+}
+
+.clock{
+padding:10px 14px;
+font-size:10px;
+}
+
+.player{
+height:210px;
+border-radius:24px;
+}
+
+.section-title{
+font-size:14px;
+letter-spacing:5px;
+}
+
+.category-btn{
+padding:12px 18px;
+font-size:14px;
+border-radius:14px;
+}
+
+.search{
+padding:15px;
+font-size:15px;
+}
+
+.grid{
+gap:12px;
+}
+
+.card{
+min-height:150px;
+border-radius:22px;
+padding:14px 8px;
+}
+
+.card img{
+width:60px;
+height:45px;
+}
+
+.card h3{
+font-size:13px;
+line-height:18px;
+}
+
+.footer{
+height:60px;
+font-size:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding-bottom:0;
+  }
+
+
+background:
+linear-gradient(
+90deg,
+rgba(255,255,255,0.04),
+rgba(255,255,255,0.10),
+rgba(255,255,255,0.04)
+);
+
+background-size:400% 100%;
+
+animation:skeleton 1.4s infinite;
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.18);
+
+}
+
+@keyframes skeleton{
+
+0%{
+background-position:100% 0;
+}
+
+100%{
+background-position:-100% 0;
+}
+
+}
+
+
+.safe-note{
+font-size:12px;
+text-align:center;
+color:#aaa;
+padding:12px;
+opacity:.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="notice">
+NOTICE
+</div>
+
+<div class="notice-text">
+<span>
+সব চ্যানেল লোড হতে ১০-১৫ সেকেন্ড সময় লাগতে পারে
+</span>
+</div>
+
+<div class="clock" id="clock">
+Loading...
+</div>
+
+</div>
+
+<!-- PLAYER -->
+
+<div class="player-wrapper">
+
+<div class="player">
+
+<div id="loader">
+Loading Channel...
+</div>
+
+<video
+id="video"
+controls
+
+playsinline>
+</video>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="section-title">
+PREMIUM TV CHANNELS
+</div>
+
+<!-- CATEGORY -->
+
+<div class="category-bar">
+
+<div class="category-btn active"
+onclick="filterCategory('all',this)">
+ALL (<span id="allCount">0</span>)
+</div>
+
+<div class="category-btn"
+onclick="filterCategory('bangla',this)">
+BANGLA
+</div>
+
+<div class="category-btn"
+onclick="filterCategory('sport',this)">
+SPORT
+</div>
+
+</div>
+
+<!-- SEARCH -->
+
+<input
+type="text"
+class="search"
+id="search"
+placeholder="🔍 Search channels...">
+
+<!-- CHANNELS -->
+
+<div class="grid"
+id="channels">
+
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+
+</div>
+  
+<!-- FOOTER -->
+
+<div class="footer">
+MADE BY MD MAMUNUR RASHID
+</div>
+
+<script>
+
+/* CLOCK */
+
+function updateClock(){
+
+const now = new Date();
+
+const days = [
+'রবিবার',
+'সোমবার',
+'মঙ্গলবার',
+'বুধবার',
+'বৃহস্পতিবার',
+'শুক্রবার',
+'শনিবার'
+];
+
+const months = [
+'জানুয়ারি',
+'ফেব্রুয়ারি',
+'মার্চ',
+'এপ্রিল',
+'মে',
+'জুন',
+'জুলাই',
+'আগস্ট',
+'সেপ্টেম্বর',
+'অক্টোবর',
+'নভেম্বর',
+'ডিসেম্বর'
+];
+
+const bdTime =
+new Date(
+now.toLocaleString(
+'en-US',
+{timeZone:'Asia/Dhaka'}
+)
+);
+
+let hour = bdTime.getHours();
+
+const minute =
+String(
+bdTime.getMinutes()
+).padStart(2,'0');
+
+const second =
+String(
+bdTime.getSeconds()
+).padStart(2,'0');
+
+const ampm =
+hour >= 12 ? 'PM' : 'AM';
+
+hour = hour % 12;
+
+hour = hour ? hour : 12;
+
+document.getElementById(
+'clock'
+).innerHTML =
+`${days[bdTime.getDay()]}, ${bdTime.getDate()} ${months[bdTime.getMonth()]} ${bdTime.getFullYear()}, ${hour}:${minute}:${second} ${ampm}`;
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* LOAD CHANNELS */
+
+fetch('channels.json')
+
+.then(res => res.json())
+
+.then(data => {
+
+window.allChannels = data.channels;
+
+loadChannels(data.channels);
+
+document.getElementById(
+'allCount'
+).innerText =
+data.channels.length;
+
+const saved =
+localStorage.getItem('lastChannel');
+
+if(saved){
+
+setTimeout(()=>{
+
+playChannel(saved);
+
+},1000);
+
+}
+
+});
+
+/* SHOW CHANNELS */
+
+function loadChannels(channels){
+
+let html = '';
+
+channels.forEach((ch,index)=>{
+
+html += `
+
+<div class="card"
+onclick="playChannel('${ch.url}',this)">
+
+<img
+src="${ch.logo || 'https://i.ibb.co/3k5p1t4/live-icon.png'}"
+onerror="this.src='https://i.ibb.co/3k5p1t4/live-icon.png'">
+
+<h3>${ch.name}</h3>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'channels'
+).innerHTML = html;
+}
+
+/* CATEGORY */
+
+  
+function filterCategory(type,el){
+
+document
+.querySelectorAll('.category-btn')
+.forEach(btn=>{
+btn.classList.remove('active');
+});
+
+el.classList.add('active');
+
+let filtered = [];
+
+if(type === 'all'){
+
+filtered = window.allChannels;
+
+}
+
+else{
+
+filtered =
+window.allChannels.filter(ch=>
+
+ch.category &&
+ch.category.toLowerCase() === type
+
+);
+
+}
+
+loadChannels(filtered);
+
+}
+
+/* SEARCH */
+
+document
+.getElementById('search')
+
+.addEventListener('keyup',
+
+function(){
+
+const value =
+this.value.toLowerCase();
+
+const filtered =
+window.allChannels.filter(ch=>
+
+ch.name.toLowerCase()
+.includes(value)
+
+);
+
+loadChannels(filtered);
+
+});
+
+/* PLAYER */
+
+function playChannel(url,card){
+
+localStorage.setItem(
+'lastChannel',
+url
+);
+
+document.getElementById('loader')
+.style.display='block';
+
+document
+.querySelectorAll('.card')
+.forEach(c=>{
+c.classList.remove('active');
+});
+
+if(card){
+card.classList.add('active');
+}
+
+const video =
+document.getElementById('video');
+
+if(Hls.isSupported()){
+
+if(window.hls){
+window.hls.destroy();
+}
+
+const hls = new Hls({
+enableWorker:true,
+lowLatencyMode:true
+});
+
+window.hls = hls;
+
+hls.loadSource(url);
+
+hls.attachMedia(video);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+function(){
+
+video.play().then(()=>{
+
+document.getElementById('loader')
+.style.display='none';
+
+});
+
+});
+
+}else{
+
+video.src = url;
+
+video.play().then(()=>{
+
+document.getElementById('loader')
+.style.display='none';
+
+});
+
+}
+
+}
+
+/* REMOTE */
+
+let currentIndex = 0;
+
+document.addEventListener(
+'keydown',
+function(e){
+
+const video =
+document.getElementById('video');
+
+if(e.key === 'ArrowDown'){
+
+e.preventDefault();
+
+if(currentIndex <
+window.allChannels.length - 1){
+
+currentIndex++;
+
+const ch =
+window.allChannels[currentIndex];
+
+playChannel(
+ch.url,
+document.querySelectorAll('.card')[currentIndex]
+);
+
+}
+
+}
+
+if(e.key === 'ArrowUp'){
+
+e.preventDefault();
+
+if(currentIndex > 0){
+
+currentIndex--;
+
+const ch =
+window.allChannels[currentIndex];
+
+playChannel(
+ch.url,
+document.querySelectorAll('.card')[currentIndex]
+);
+
+}
+
+}
+
+if(e.key === 'ArrowRight'){
+
+if(video.volume < 1){
+
+video.volume += 0.1;
+
+}
+
+}
+
+if(e.key === 'ArrowLeft'){
+
+if(video.volume > 0){
+
+video.volume -= 0.1;
+
+}
+
+}
+
+});
+
+</script>
+
+
+<div class="safe-note">
+⚠️ This website does not host any stream. All channels are publicly available on the internet.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+{
+  "info": {
+    "owner": "MD MAMUNUR RASHID",
+    "team": "xfireflix",
+    "generated_by": "IPTV HEXA PRO",
+    "contact": "t.me/mamunptsc",
+    "support": "https://t.me/mamunptsc",
+    "version": "v6.0",
+    "github": "https://github.com/mamunptsc1",
+    "note": "Educational & testing purposes only.",
+    "auto_update": true,
+    "update_interval": "1 hours",
+    "total_channels": 24,
+    "last_update": "2026-05-07 01:59 AM (BD Time)"
+  },
+  "channels": [
+    {
+      "name": "Star Jalsha",
+      "category": "bangla",
+      "logo": "https://raw.githubusercontent.com/mamunptsc1/iptv/main/logos/Star_Jalsha.webp",
+      "url": "https://tvsen3.aynascope.net/n64PH4YL/index.m3u8"
+    },
+    {
+      "name": "Star Jalsha 2",
+      "category": "bangla",
+      "logo": "https://raw.githubusercontent.com/mamunptsc1/iptv/main/logos/Star_Jalsha.webp",
+      "url": "https://playztv-apps.pages.dev/star-jalsha/index.m3u8"
+    },
+    {
+      "name": "Gopal Bhar",
+      "category": "bangla",
+      "logo": "https://i.ibb.co/3k5p1t4/live-icon.png",
+      "url": "https://live20.bozztv.com/giatvplayout7/giatv-209611/tracks-v1a1/mono.ts.m3u8"
+    },
+    {
+      "name": "Deepto TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/3/3f/Deepto_TV_logo.png",
+      "url": "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8"
+    },
+    {
+      "name": "Enter10 Bangla",
+      "category": "bangla",
+      "logo": "https://i.ibb.co/3k5p1t4/live-icon.png",
+      "url": "https://amg01448-samsungin-enterr10bangla-samsungin-ad-gg.amagi.tv/playlist/amg01448-samsungin-enterr10bangla-samsungin/playlist.m3u8"
+    },
+    {
+      "name": "Jamuna TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/6/65/Jamuna_Television_logo.svg",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8"
+    },
+    {
+      "name": "Somoy TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/4/49/Somoy_TV_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8"
+    },
+    {
+      "name": "Channel 24",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/7/70/Channel24BDLogo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1703/output/index.m3u8"
+    },
+    {
+      "name": "Independent TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/5/57/Independent_Television_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/index.m3u8"
+    },
+    {
+      "name": "Ekattor TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/6/69/Ekattor_TV_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8"
+    },
+    {
+      "name": "ATN News",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/e/e8/ATN_News_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8"
+    },
+    {
+      "name": "BTV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/f/f1/Bangladesh_Television_Logo.svg",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1707/output/index.m3u8"
+    },
+    {
+      "name": "News24",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/0/09/News24_Bangladesh_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1708/output/index.m3u8"
+    },
+    {
+      "name": "Bangla Vision",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/f/f1/Banglavision.svg",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8"
+    },
+    {
+      "name": "NTV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/3/3c/Ntv_logo.svg",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8"
+    },
+    {
+      "name": "SA TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/6/6d/SATV_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1720/output/index.m3u8"
+    },
+    {
+      "name": "ATN Bangla",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/6/69/ATN_Bangla_Logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1721/output/index.m3u8"
+    },
+    {
+      "name": "Machranga TV",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/4/4f/Machranga_Television_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8"
+    },
+    {
+      "name": "Channel i",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/9/90/Channel_i.svg",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1723/output/index.m3u8"
+    },
+    {
+      "name": "Islamic TV",
+      "category": "bangla",
+      "logo": "https://i.ibb.co/3k5p1t4/live-icon.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1724/output/index.m3u8"
+    },
+    {
+      "name": "DBC News",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/4/4f/DBC_News_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1728/output/index.m3u8"
+    },
+    {
+      "name": "Channel 9",
+      "category": "bangla",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/5/59/Channel_9_Bangladesh_logo.png",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1729/output/index.m3u8"
+    },
+    {
+      "name": "MAX HD",
+      "category": "sport",
+      "logo": "https://i.ibb.co/3k5p1t4/live-icon.png",
+      "url": "https://webott.viatv.com.np/v0t1/CineplexHD.stream/chunks.m3u8"
+    },
+    {
+      "name": "T Sports",
+      "category": "sport",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/5/5e/T_Sports_logo.png",
+      "url": "https://playztv-apps.pages.dev/tsports/index.m3u8"
+    }
+  ]
+}
